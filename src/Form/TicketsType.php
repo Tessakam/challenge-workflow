@@ -26,14 +26,6 @@ class TicketsType extends AbstractType
                 'choice_label' => 'FirstName',
             ])
 
-            ->add('createdBy', EntityType::class, [
-                'class' => User::class,
-                'query_builder' => function (UserRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.FirstName', 'ASC');
-                },
-                'choice_label' => 'FirstName',
-            ])
 
         ;
     }

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TicketsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,6 +39,7 @@ class Tickets
      * @ORM\JoinColumn(nullable=false)
      */
     private $createdBy;
+
 
     public function getId(): ?int
     {
