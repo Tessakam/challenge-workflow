@@ -84,6 +84,11 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    public function __construct()
+    {
+        $this->roles = array('ROLE_USER');
+    }
+
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
