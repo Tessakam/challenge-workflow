@@ -8,5 +8,15 @@
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
+
+        {# templates/base.html.twig #}
+
+        {# beware that the blocks in your template may be named different #}
+        {% block head_css %}
+            <!-- Copy CSS from https://getbootstrap.com/docs/4.4/getting-started/introduction/#css -->
+        {% endblock %}
+        {% block head_js %}
+            <!-- Copy JavaScript from https://getbootstrap.com/docs/4.4/getting-started/introduction/#js -->
+        {% endblock %}
     </body>
 </html>

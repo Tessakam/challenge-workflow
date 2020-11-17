@@ -9,7 +9,6 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>TicketId</th>
                 <th>TicketStatus</th>
                 <th>TicketPriority</th>
                 <th>actions</th>
@@ -19,7 +18,6 @@
         {% for ticket in tickets %}
             <tr>
                 <td>{{ ticket.id }}</td>
-                <td>{{ ticket.ticketId }}</td>
                 <td>{{ ticket.ticketStatus }}</td>
                 <td>{{ ticket.ticketPriority }}</td>
                 <td>
