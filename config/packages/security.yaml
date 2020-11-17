@@ -38,3 +38,8 @@ security:
     - { path: ^/customer, roles: ROLE_USER }
     - { path: ^/agent-one, roles: ROLE_AGENT_ONE }
     - { path: ^/agent-two, roles: ROLE_AGENT_TWO }
+
+  role_hierarchy:
+        ROLE_AGENT_ONE: [ ROLE_USER, ROLE_ALLOWED_TO_SWITCH ]
+        ROLE_AGENT_TWO: [ ROLE_USER, ROLE_ALLOWED_TO_SWITCH ]
+        ROLE_MANAGER: [ ROLE_AGENT_ONE,ROLE_AGENT_TWO, ROLE_ALLOWED_TO_SWITCH ]

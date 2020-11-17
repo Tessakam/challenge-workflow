@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Tickets;
+use App\Repository\UserRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,11 +15,26 @@ class TicketsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('ticketId')
             ->add('ticketStatus')
             ->add('ticketPriority')
-            ->add('assignedTo')
-            ->add('createdBy')
+            ->add('assignedTo', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (UserRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.FirstName', 'ASC');
+                },
+                'choice_label' => 'FirstName',
+            ])
+
+            ->add('createdBy', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (UserRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.FirstName', 'ASC');
+                },
+                'choice_label' => 'FirstName',
+            ])
+
         ;
     }
 

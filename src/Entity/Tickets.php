@@ -18,13 +18,9 @@ class Tickets
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
-    private $ticketId;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $ticketStatus;
 
     /**
@@ -48,17 +44,6 @@ class Tickets
         return $this->id;
     }
 
-    public function getTicketId(): ?int
-    {
-        return $this->ticketId;
-    }
-
-    public function setTicketId(int $ticketId): self
-    {
-        $this->ticketId = $ticketId;
-
-        return $this;
-    }
 
     public function getTicketStatus(): ?string
     {
