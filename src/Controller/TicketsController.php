@@ -3,18 +3,28 @@
 namespace App\Controller;
 
 use App\Entity\Tickets;
+use App\Entity\User;
 use App\Form\TicketsType;
 use App\Repository\TicketsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/tickets")
  */
 class TicketsController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        // Avoid calling getUser() in the constructor: auth may not
+        // be complete yet. Instead, store the entire Security object.
+        $this->security = $security;
+    }
     /**
      * @Route("/", name="tickets_index", methods={"GET"})
      */
@@ -27,10 +37,15 @@ class TicketsController extends AbstractController
 
     /**
      * @Route("/new", name="tickets_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param $security
+     * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request,Security $security): Response
     {
+        $user = $this->security->getUser();
         $ticket = new Tickets();
+        $ticket->setCreatedBy($user);
         $form = $this->createForm(TicketsType::class, $ticket);
         $form->handleRequest($request);
 
