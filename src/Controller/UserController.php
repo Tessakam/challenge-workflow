@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Tickets;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
@@ -22,13 +23,14 @@ class UserController extends AbstractController
     {
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
-            'roles'=> User::roles,
+            'roles' => User::roles,
         ]);
     }
 
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
+    // Create new agent with role "Agent One/Two"
     public function new(Request $request): Response
     {
         $user = new User();
@@ -54,17 +56,19 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_show", methods={"GET"})
      */
+    // show specific agent profile
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'roles'=> User::roles,
+            'roles' => User::roles,
         ]);
     }
 
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
+    // edit specific agent profile
     public function edit(Request $request, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -79,16 +83,17 @@ class UserController extends AbstractController
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-            'roles'=> User::roles,
+            'roles' => User::roles,
         ]);
     }
 
     /**
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
      */
+    // delete specific agent profile
     public function delete(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
@@ -96,4 +101,27 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
+
+    /*
+     /**
+     * @Route("/", name="user_index", methods={"GET"})
+     */
+    // dashboard for manager
+    public function getDashboard(): response
+    {
+        $openTickets = 0;
+        $closedTickets = 0;
+
+        //all tickets
+        $ticketStatus = $this->getDoctrine()->getRepository(Tickets::class)->findby(['ticketStatus' => 'open']);
+        //var_dump ($ticketStatus);
+        //$openTickets->$allTickets->array_count_values('open');
+        //$closedTickets->$allTickets->array_count_values('closed');
+
+        return $this->render('user/show.html.twig', [
+            'dashboardOpenTickets' => $openTickets,
+            'dashboardClosedTickets' => $closedTickets,
+        ]);
+    }
+
 }
