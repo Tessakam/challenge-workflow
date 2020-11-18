@@ -1,6 +1,45 @@
 ### Group challenge with Léa, Victoria and Tessa
 
-# Title: workflow
+This repository contains the group challenge Workflow 
+<br>[Trello overview](https://trello.com/b/wjcTfNIf/group-challenge-ticket-system)
+
+## How to install - setup vhost
+
+VirtualHost *:80>
+ServerName challenge-workflow.local
+
+DocumentRoot /var/www/challenge-workflow/public
+DirectoryIndex /index.php
+<Directory /var/www/challenge-workflow/public>
+    AllowOverride All
+    Order Allow,Deny
+    Allow from All
+    FallbackResource /index.php
+</Directory>
+</VirtualHost>
+
+## Installing the project
+
+After cloning this repo, run
+ - "composer install" inside the root directory
+ For the function reset password, run
+ - composer require symfony/webpack-encore-bundle
+ - composer require symfony/postmark-mailer
+ - composer require symfony/sendgrid-mailer
+ 
+## Creating the database
+ - Make a copy of .env to .env.local and change DATABASE_URL parameter with your database configuration. (don't commit this file!)
+ 
+## Installing the database.
+- Create a new database "ticketsystem".
+- Link with database, use the command php bin/console doctrine:migrations:migrate
+
+! Don't modify these folders (part of the composer)
+ - vendor 
+ - node_modules
+
+[Instructions Readme](https://github.com/becodeorg/atw-giertz-3-23/tree/master/3.The-Mountain/2.symfony/5.group-project)
+## Title: workflow
 
 - Repository: `challenge-workflow`
 - Type of Challenge: `Consolidation Challenge`
@@ -15,32 +54,15 @@ Until now we have mainly been writing CRUD applications, where the main focus is
 
 Another big part of development is workflow implementation to automate processes in the real world. Any time you have a status field (for example is an invoice paid? Is a product delivered?) you probably have a workflow before you.
 
-### A story about a tomato
-Think about a physical product like a tomato in a grocery store, this tomato lives an entire journey:
-
-- The tomato is harvested on the farm
-- The tomato is shipped with a truck to a store
-- Their the tomato is weighted and gets a price. Extra information about the tomato is now available.
-- Maybe the store keeps a ledger of the total amount of tomatoes in their store - they have to update this information.
-- The tomato is sold - nothing more can be done with it.
-- The ledger amount of tomatoes is lowered again.
-- Maybe if the amount becomes too low a new shipment of tomatoes is ordered.
-
-Also interesting to note is that there can be several endings or routes the tomato can travel. Maybe at any time in the flow somebody can say that the tomato has fungus on it - taking it out of the market and flow.
-
-Maybe sometimes the farmer sells the products directly to some customers, in which case we can skip the transportation step.
-
-![Tomato](tomato.jpg)
-
 ## Must-have features
 This week we are going to implement the workflow of a call center. 
 
 We have 5 different users in our system that have different abilities:
 
 ### Guest
-- Can register himself to become a Customer.
-- Can login to become another role (based on credentials)
-- Provide a "forgot my password" functionality
+-[x] Can register himself to become a Customer.
+-[x] Can login to become another role (based on credentials)
+-[x] Provide a "forgot my password" functionality
 
 ### Customer
 - A customer can create a ticket on the site. It get's the status "open".
