@@ -3,9 +3,13 @@
 {% block title %}New Comments{% endblock %}
 
 {% block body %}
+
+<div class="container bg-info text-white">
     <h1>Create new Comments</h1>
 
     {{ include('comments/_form.html.twig') }}
 
     <a href="{{ path('comments_index') }}">back to list</a>
+
+</div>
 {% endblock %}

@@ -3,6 +3,8 @@
 {% block title %}Edit Tickets{% endblock %}
 
 {% block body %}
+
+<div class="container bg-info text-white">
     <h1>Edit Tickets</h1>
 
     {{ include('tickets/_form.html.twig', {'button_label': 'Update'}) }}
@@ -10,4 +12,7 @@
     <a href="{{ path('agent_index') }}">back to list</a>
 
     {{ include('tickets/_delete_form.html.twig') }}
+
+</div>
+
 {% endblock %}
