@@ -3,9 +3,13 @@
 {% block title %}New Tickets{% endblock %}
 
 {% block body %}
+
+<div class="container bg-info text-white">
     <h1>Create new Tickets</h1>
 
     {{ include('tickets/_form.html.twig') }}
 
     <a href="{{ path('tickets_index') }}">back to list</a>
+
+</div>
 {% endblock %}
