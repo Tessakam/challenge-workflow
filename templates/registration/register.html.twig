@@ -8,6 +8,8 @@
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
 
+<div class="container bg-info text-white">
+
     <h1>Register</h1>
 
     {{ form_start(registrationForm) }}
@@ -21,4 +23,6 @@
 
     <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
+
+</div>
 {% endblock %}
