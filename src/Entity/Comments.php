@@ -35,6 +35,11 @@ class Comments
      */
     private $commentContent;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Tickets::class, inversedBy="Comments")
+     */
+    private $tickets;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -73,6 +78,18 @@ class Comments
     public function setCommentContent(?string $commentContent): self
     {
         $this->commentContent = $commentContent;
+
+        return $this;
+    }
+
+    public function getTickets(): ?Tickets
+    {
+        return $this->tickets;
+    }
+
+    public function setTickets(?Tickets $tickets): self
+    {
+        $this->tickets = $tickets;
 
         return $this;
     }
