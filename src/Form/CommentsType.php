@@ -18,10 +18,6 @@ class CommentsType extends AbstractType
     {
         $builder
             ->add('commentContent', TextareaType::class)
-            ->add('relatedTicket', EntityType::class, [
-                'class' => Tickets::class,
-                'choice_label' => 'id',
-            ])
         ;
     }
 
