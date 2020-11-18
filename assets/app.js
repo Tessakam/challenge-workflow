@@ -12,3 +12,12 @@ import './styles/app.css';
 // import $ from 'jquery';
 
 console.log('Hello Webpack Encore! Edit me in assets/app.js');
+
+const $ = require('jquery');
+// this "modifies" the jquery module: adding behavior to it
+// the bootstrap module doesn't export/return anything
+require('bootstrap');
+
+
+
+
