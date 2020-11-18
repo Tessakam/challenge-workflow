@@ -13,9 +13,8 @@ return [
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
-<<<<<<< HEAD
+
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
-=======
+
     SymfonyCasts\Bundle\ResetPassword\SymfonyCastsResetPasswordBundle::class => ['all' => true],
->>>>>>> 22c02658ca76c5991f314bf1a766c9d41aaba79f
 ];
