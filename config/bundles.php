@@ -17,4 +17,8 @@ return [
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
 
     SymfonyCasts\Bundle\ResetPassword\SymfonyCastsResetPasswordBundle::class => ['all' => true],
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2fe1b69455ba13195acb196b079132cf8a6c3858
 ];
