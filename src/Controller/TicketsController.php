@@ -68,6 +68,7 @@ class TicketsController extends AbstractController
      */
     public function show(Tickets $ticket): Response
     {
+
         return $this->render('tickets/show.html.twig', [
             'ticket' => $ticket,
         ]);

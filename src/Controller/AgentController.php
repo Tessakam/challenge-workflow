@@ -59,7 +59,7 @@ class AgentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('/tickets/index_agent.html.twig');
+            return $this->redirectToRoute('agent_index');
         }
 
         return $this->render('tickets/edit_agent.html.twig', [
@@ -71,15 +71,13 @@ class AgentController extends AbstractController
     /**
      * @Route("/{id}/assign/agent", name="agent_assign", methods={"GET","POST"})
      */
-    public function assign(Request $request, Tickets $ticket): Response
+    public function assign(Request $request, Tickets $ticket,Security $security): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ticket->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($ticket);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('tickets_index');
+        $user = $this->security->getUser();
+        $ticket->setAssignedTo($user);
+        $ticket->setTicketStatus('in progress');
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('agent_index');
 
     }
 
