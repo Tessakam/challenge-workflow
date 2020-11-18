@@ -7,31 +7,48 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ticket.id }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ ticket.id }}</td>
+        </tr>
 
-            <tr>
-                <th>TicketStatus</th>
-                <td>{{ ticket.ticketStatus }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ ticket.content }}</td>
-            </tr>
-            <tr>
-                <th>TicketPriority</th>
-                <td>{{ ticket.ticketPriority }}</td>
-            </tr>
+        <tr>
+            <th>TicketStatus</th>
+            <td>{{ ticket.ticketStatus }}</td>
+        </tr>
+        <tr>
+            <th>Content</th>
+            <td>{{ ticket.content }}</td>
+        </tr>
+        <tr>
+            <th>TicketPriority</th>
+            <td>{{ ticket.ticketPriority }}</td>
+        </tr>
         </tbody>
     </table>
+    <a href="{{ path('tickets_index') }}">back to list</a>
+
+    <a href="{{ path('tickets_edit', {'id': ticket.id}) }}">edit</a>
 
     <h2>Comments</h2>
 
+    {% for comment in comments %}
+        <table>
+            <tbody>
+            <tr>
+                <th>Author :</th>
+                <td>{{ comment.userComments.firstName }} {{ comment.userComments.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Content:</th>
+                <td>{{ comment.commentContent }}</td>
+            </tr>
 
-    <a href="{{ path('tickets_index') }}">back to list</a>
+            </tbody>
+        </table>
 
+    {% endfor %}
+    <a href="{{ path('comments_new', {'ticketId': ticket.id}) }}">Create new comment</a>
     <a href="{{ path('tickets_edit', {'id': ticket.id}) }}">edit</a>
 
     {{ include('tickets/_delete_form.html.twig') }}

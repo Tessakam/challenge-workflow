@@ -25,14 +25,9 @@ class Comments
     private $userComments;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Tickets::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string")
      */
-    private $relatedTicket;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $commentContent;
 
     /**
@@ -58,17 +53,6 @@ class Comments
         return $this;
     }
 
-    public function getRelatedTicket(): ?Tickets
-    {
-        return $this->relatedTicket;
-    }
-
-    public function setRelatedTicket(?Tickets $relatedTicket): self
-    {
-        $this->relatedTicket = $relatedTicket;
-
-        return $this;
-    }
 
     public function getCommentContent(): ?string
     {

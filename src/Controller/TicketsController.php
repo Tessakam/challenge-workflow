@@ -25,6 +25,7 @@ class TicketsController extends AbstractController
         // be complete yet. Instead, store the entire Security object.
         $this->security = $security;
     }
+
     /**
      * @Route("/", name="tickets_index", methods={"GET"})
      */
@@ -41,7 +42,7 @@ class TicketsController extends AbstractController
      * @param $security
      * @return Response
      */
-    public function new(Request $request,Security $security): Response
+    public function new(Request $request, Security $security): Response
     {
         $user = $this->security->getUser();
         $ticket = new Tickets();
@@ -68,9 +69,10 @@ class TicketsController extends AbstractController
      */
     public function show(Tickets $ticket): Response
     {
-
+        $comments = $ticket->getComments();
         return $this->render('tickets/show.html.twig', [
             'ticket' => $ticket,
+            'comments' => $comments,
         ]);
     }
 
@@ -99,7 +101,7 @@ class TicketsController extends AbstractController
      */
     public function delete(Request $request, Tickets $ticket): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ticket->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $ticket->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($ticket);
             $entityManager->flush();

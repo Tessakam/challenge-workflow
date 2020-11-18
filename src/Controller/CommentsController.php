@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comments;
+use App\Entity\Tickets;
 use App\Form\CommentsType;
 use App\Repository\CommentsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,9 +42,12 @@ class CommentsController extends AbstractController
      */
     public function new(Request $request,Security $security): Response
     {
+        $id=$request->query->get('ticketId');
+        $ticket=$this->getDoctrine()->getRepository(Tickets::class)->find($id);
         $user = $this->security->getUser();
         $comment = new Comments();
         $comment->setUserComments($user);
+        $comment->setTickets($ticket);
         $form = $this->createForm(CommentsType::class, $comment);
         $form->handleRequest($request);
 
@@ -52,7 +56,7 @@ class CommentsController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('comments_index');
+            return $this->redirectToRoute('tickets_show',['id'=> $id,]);
         }
 
         return $this->render('comments/new.html.twig', [
