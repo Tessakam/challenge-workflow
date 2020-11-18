@@ -40,6 +40,11 @@ class Tickets
      */
     private $createdBy;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Content;
+
 
     public function getId(): ?int
     {
@@ -91,6 +96,18 @@ class Tickets
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->Content;
+    }
+
+    public function setContent(string $Content): self
+    {
+        $this->Content = $Content;
 
         return $this;
     }

@@ -9,12 +9,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/comments")
  */
 class CommentsController extends AbstractController
 {
+    private $security;
+    public function __construct(Security $security)
+    {
+        // Avoid calling getUser() in the constructor: auth may not
+        // be complete yet. Instead, store the entire Security object.
+        $this->security = $security;
+    }
+
     /**
      * @Route("/", name="comments_index", methods={"GET"})
      */
@@ -27,10 +36,14 @@ class CommentsController extends AbstractController
 
     /**
      * @Route("/new", name="comments_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param $security
      */
-    public function new(Request $request): Response
+    public function new(Request $request,Security $security): Response
     {
+        $user = $this->security->getUser();
         $comment = new Comments();
+        $comment->setUserComments($user);
         $form = $this->createForm(CommentsType::class, $comment);
         $form->handleRequest($request);
 

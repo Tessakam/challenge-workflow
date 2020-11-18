@@ -17,10 +17,6 @@ class Comments
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $commentsId;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
@@ -44,17 +40,6 @@ class Comments
         return $this->id;
     }
 
-    public function getCommentsId(): ?int
-    {
-        return $this->commentsId;
-    }
-
-    public function setCommentsId(int $commentsId): self
-    {
-        $this->commentsId = $commentsId;
-
-        return $this;
-    }
 
     public function getUserComments(): ?User
     {
