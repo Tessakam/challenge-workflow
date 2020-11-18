@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Comments
 {
+    public const status=["PUBLIC"=>"PUBLIC","PRIVATE"=>"PRIVATE"];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -34,6 +35,11 @@ class Comments
      * @ORM\ManyToOne(targetEntity=Tickets::class, inversedBy="Comments")
      */
     private $tickets;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $status= [];
 
     public function getId(): ?int
     {
@@ -74,6 +80,24 @@ class Comments
     public function setTickets(?Tickets $tickets): self
     {
         $this->tickets = $tickets;
+
+        return $this;
+    }
+
+    public function getStatus(): array
+    {
+        $status=$this->status;
+        return array_unique($status);
+    }
+    public function __construct()
+    {
+        //$this->roles = array('ROLE_USER');
+        $this->setStatus((array)self::status["PUBLIC"]);
+    }
+
+    public function setStatus(array $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
