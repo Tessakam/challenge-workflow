@@ -60,20 +60,20 @@ This week we are going to implement the workflow of a call center.
 We have 5 different users in our system that have different abilities:
 
 ### Guest
--[x] Can register himself to become a Customer.
--[x] Can login to become another role (based on credentials)
--[x] Provide a "forgot my password" functionality
+- [x] Can register himself to become a Customer.
+- [x] Can login to become another role (based on credentials)
+- [x] Provide a "forgot my password" functionality
 
 ### Customer
-- A customer can create a ticket on the site. It get's the status "open".
-- The customer can see all open tickets that he created and comment on them.
+-[x] A customer can create a ticket on the site. It get's the status "open".
+-[x] The customer can see all open tickets that he created and comment on them.
 - If the customer responds to a ticket with status "Waiting for customer feedback" mail the agent and change the status again to "in progress".
 - A customer can reopen a ticket if it has been closed for less than 1 hour.
 
 ### Agent
-- First line agents can see all open tickets and assign one to themselves. It now get's the status "in progress".
-- Agents can leave comments on a ticket which can be public (the customer can see the comment and react) or private (invisible for customer)
-- If the agent leaves a public comment mark the ticket "Waiting for customer feedback"
+-[x] First line agents can see all open tickets and assign one to themselves. It now get's the status "in progress".
+-[x] Agents can leave comments on a ticket which can be public (the customer can see the comment and react) or private (invisible for customer)
+-[x] If the agent leaves a public comment mark the ticket "Waiting for customer feedback"
 - First line agents can "escalate a ticket" to "second line" help.
 - An agent can close a ticket if it has at minimum one agent comment (to explain the solution to the customer).
 
