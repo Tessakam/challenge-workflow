@@ -142,7 +142,7 @@ class UserController extends AbstractController
 
         $numberOpenTickets =count($openTickets);
         $numberClosedTickets =count($closedTickets);
-        $numberReopenTickets =count($closedTickets);
+        //$numberReopenTickets =count($numberReopenTickets);
 
         return $this->render('user/index.html.twig', [
             "users" => $users,
@@ -150,6 +150,7 @@ class UserController extends AbstractController
             'dashboardClosedTickets' => $closedTickets,
             'dashboardTotalOpenTickets' => $numberOpenTickets,
             'dashboardTotalClosedTickets' => $numberClosedTickets,
+            //'dashboardTotalReopenTickets' => $numberReopenTickets,
           ]);
     }
 
