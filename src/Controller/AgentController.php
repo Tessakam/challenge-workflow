@@ -76,12 +76,22 @@ class AgentController extends AbstractController
     {
         $user = $this->security->getUser();
         $role=$user->getRoles();
-        //$status=$ticket->setTicketStatus();
+        $status=$ticket->getTicketStatus();
         if($role==['ROLE_AGENT_ONE']){
-
-            $ticket->setAssignedTo($user);
-            $ticket->setTicketStatus('in progress');
-            $this->getDoctrine()->getManager()->flush();
+            if($status!='second line'){
+                $ticket->setAssignedTo($user);
+                $ticket->setTicketStatus('in progress');
+                $this->getDoctrine()->getManager()->flush();
+            }
+            else{$this->addFlash('forSecondLine', 'Ticket has to be assigned to second line agent.');}
+        }
+        if($role==['ROLE_AGENT_TWO']){
+            if($status=='second line'){
+                $ticket->setAssignedTo($user);
+                $ticket->setTicketStatus('in progress');
+                $this->getDoctrine()->getManager()->flush();
+            }
+            else{$this->addFlash('forFirstLine', 'Ticket has to be assigned to first line agent.');}
         }
 
         return $this->redirectToRoute('agent_index');

@@ -11,6 +11,16 @@
                 {{ message }}
             </div>
         {% endfor %}
+        {% for message in app.flashes('forSecondLine') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('forFirstLine') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
 
 
         <table class="table">
