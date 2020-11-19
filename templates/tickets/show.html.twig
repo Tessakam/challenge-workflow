@@ -4,57 +4,78 @@
 
 {% block body %}
 
-<div class="container bg-info text-white">
+    <div class="container bg-info text-white">
 
-    <h1>Tickets</h1>
+        <h1>Tickets</h1>
 
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ ticket.id }}</td>
-        </tr>
-
-        <tr>
-            <th>TicketStatus</th>
-            <td>{{ ticket.ticketStatus }}</td>
-        </tr>
-        <tr>
-            <th>Content</th>
-            <td>{{ ticket.content }}</td>
-        </tr>
-        <tr>
-            <th>TicketPriority</th>
-            <td>{{ ticket.ticketPriority }}</td>
-        </tr>
-        </tbody>
-    </table>
-    <a href="{{ path('tickets_index') }}">back to list</a>
-
-    <a href="{{ path('tickets_edit', {'id': ticket.id}) }}">edit</a>
-
-    <h2>Comments</h2>
-
-    {% for comment in comments %}
-        <table>
+        <table class="table">
             <tbody>
             <tr>
-                <th>Author :</th>
-                <td>{{ comment.userComments.firstName }} {{ comment.userComments.lastName }}</td>
+                <th>Id</th>
+                <td>{{ ticket.id }}</td>
+            </tr>
+
+            <tr>
+                <th>TicketStatus</th>
+                <td>{{ ticket.ticketStatus }}</td>
             </tr>
             <tr>
-                <th>Content:</th>
-                <td>{{ comment.commentContent }}</td>
+                <th>Content</th>
+                <td>{{ ticket.content }}</td>
             </tr>
-
+            <tr>
+                <th>TicketPriority</th>
+                <td>{{ ticket.ticketPriority }}</td>
+            </tr>
             </tbody>
         </table>
+        {% if is_granted('ROLE_AGENT_ONE') or is_granted('ROLE_AGENT_TWO') %}
+        <a href="{{ path('agent_index') }}">back to list</a>
+        {% else %}
+        <a href="{{ path('tickets_index') }}">back to list</a>
+        {% endif %}
 
-    {% endfor %}
-    <a href="{{ path('comments_new', {'ticketId': ticket.id}) }}">Create new comment</a>
-    <a href="{{ path('tickets_edit', {'id': ticket.id}) }}">edit</a>
+        <a href="{{ path('tickets_edit', {'id': ticket.id}) }}">edit</a>
 
-    {{ include('tickets/_delete_form.html.twig') }}
+        <h2>Comments</h2>
 
-</div>
+        {% for comment in comments %}
+            {% if is_granted('ROLE_AGENT_ONE') or is_granted('ROLE_AGENT_TWO') %}
+            <table>
+                <tbody>
+                <tr>
+                    <th>Author :</th>
+                    <td>{{ comment.userComments.firstName }} {{ comment.userComments.lastName }}</td>
+                </tr>
+                <tr>
+                    <th>Content:</th>
+                    <td>{{ comment.commentContent }}</td>
+                </tr>
+
+                </tbody>
+            </table>
+                {% elseif comment.status==['PUBLIC'] %}
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th>Author :</th>
+                            <td>{{ comment.userComments.firstName }} {{ comment.userComments.lastName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Content:</th>
+                            <td>{{ comment.commentContent }}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+            {% endif %}
+
+        {% endfor %}
+        <a href="{{ path('comments_new', {'ticketId': ticket.id}) }}">Create new comment</a>
+        <a href="{{ path('tickets_edit', {'id': ticket.id}) }}">edit</a>
+
+        {{ include('tickets/_delete_form.html.twig') }}
+
+    </div>
 {% endblock %}

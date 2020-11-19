@@ -31,8 +31,12 @@ class TicketsController extends AbstractController
      */
     public function index(TicketsRepository $ticketsRepository): Response
     {
+        $user = $this->security->getUser();
+        $createdBy = $user->getId();
         return $this->render('tickets/index.html.twig', [
-            'tickets' => $ticketsRepository->findAll(),
+            'tickets' => $ticketsRepository->findBy(
+                ['createdBy' => $createdBy]
+            )
         ]);
     }
 

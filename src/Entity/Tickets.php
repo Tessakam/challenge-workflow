@@ -37,7 +37,6 @@ class Tickets
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
      */
     private $createdBy;
 
@@ -87,12 +86,12 @@ class Tickets
         return $this;
     }
 
-    public function getAssignedTo(): ?User
+    public function getAssignedTo(): 
     {
         return $this->assignedTo;
     }
 
-    public function setAssignedTo(?User $assignedTo): self
+    public function setAssignedTo( $assignedTo): self
     {
         $this->assignedTo = $assignedTo;
 

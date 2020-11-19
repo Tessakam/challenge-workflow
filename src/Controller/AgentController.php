@@ -80,6 +80,17 @@ class AgentController extends AbstractController
         return $this->redirectToRoute('agent_index');
 
     }
+// /**
+//     * @Route("/{id}/second-line/agent", name="agent_second_line", methods={"GET","POST"})
+//     */
+//    public function assign(Request $request, Tickets $ticket,Security $security): Response
+//    {
+//        $ticket->setTicketStatus('second line');
+//        $this->getDoctrine()->getManager()->flush();
+//        return $this->redirectToRoute('agent_index');
+//
+//    }
+
 
     /**
      * @Route("/{id}", name="tickets_delete", methods={"DELETE"})

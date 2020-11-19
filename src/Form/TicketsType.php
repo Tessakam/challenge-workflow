@@ -33,14 +33,15 @@ class TicketsType extends AbstractType
             //            ])
 
             ->add('content',TextareaType::class)
-            ->add('assignedTo', EntityType::class, [
-                'class' => User::class,
-                'query_builder' => function (UserRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.FirstName', 'ASC');
-                },
-                'choice_label' => 'FirstName',
-            ])
+            //->add('assignedTo', EntityType::class, [
+            //                'class' => User::class,
+            //                'query_builder' => function (UserRepository $er) {
+            //                    return $er->createQueryBuilder('u')
+            //                        ->orderBy('u.FirstName', 'ASC');
+            //                },
+            //                'choice_label' => 'FirstName',
+            //            ])
+
 
 
         ;
