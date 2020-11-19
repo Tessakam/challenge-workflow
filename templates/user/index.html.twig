@@ -4,11 +4,11 @@
 
 {% block body %}
 
-<div class="container bg-info text-white">
-    <h1>User index</h1>
+    <div class="container bg-info text-white">
+        <h1>User index</h1>
 
-    <table class="table">
-        <thead>
+        <table class="table">
+            <thead>
             <tr>
                 <th>Id</th>
                 <th>FirstName</th>
@@ -18,30 +18,61 @@
                 <th>Email</th>
                 <th>actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.FirstName }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.LastName }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.FirstName }}</td>
+                    <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>{{ user.LastName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                        <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('user_new') }}">Create new</a>
+        <a href="{{ path('user_new') }}">Create new</a>
 
-</div>
+        <div class="example-wrapper">
+            <h1>Welcome!</h1>
+
+            <table style="width:100%">
+                <tr>
+                    <th>Open tickets</th>
+                    <th>Close tickets</th>
+                    <th>Reopen tickets</th>
+                </tr>
+            </table>
+
+            {% for openTicket in dashboardOpenTickets %}
+                <tr>
+                    <td>{{ openTicket.id }}</td>
+                    <td>{{ openTicket.ticketStatus }}</td>
+                    <td>{{ openTicket.ticketPriority }}</td>
+                    <td>{{ openTicket.content }}</td>
+                    <td>{% if  openTicket.assignedTo is not null %}{{ openTicket.assignedTo.firstName }} {{ openTicket.assignedTo.lastName }}{% endif %}</td>
+                    <td>
+                    </td>
+                </tr>
+                <a href="{{ path('tickets_show', {'id': openTicket.id}) }}">Show</a>
+                <a href="{{ path('agent_edit', {'id': openTicket.id}) }}">Edit</a>
+                <a href="{{ path('agent_assign', {'id': openTicket.id}) }}">Assign</a>
+
+            {% else %}
+
+            {% endfor %}
+
+
+        </div>
+    </div>
 {% endblock %}

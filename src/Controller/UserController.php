@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/user")
@@ -101,27 +102,53 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
-
-    /*
-     /**
+    /**
      * @Route("/", name="user_index", methods={"GET"})
      */
     // dashboard for manager
-    public function getDashboard(): response
+    public function dashboard(): response
     {
         $openTickets = 0;
         $closedTickets = 0;
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
-        //all tickets
-        $ticketStatus = $this->getDoctrine()->getRepository(Tickets::class)->findby(['ticketStatus' => 'open']);
-        //var_dump ($ticketStatus);
-        //$openTickets->$allTickets->array_count_values('open');
-        //$closedTickets->$allTickets->array_count_values('closed');
+        $allTickets = $this->getDoctrine()->getRepository(Tickets::class)->findAll();
+        //var_dump($openTickets);
 
-        return $this->render('user/show.html.twig', [
+        // $em = entity manager: charge of saving objects and fetching them back out.
+        $em = $this->getDoctrine()->getRepository(Tickets::class);
+        $openTickets = $em->findBy(['ticketStatus' => 'open']);
+        $closedTickets = $em->findBy(['ticketStatus' => 'closed']);
+
+        $showTickets = new Tickets();
+        //$showTickets->setReOpen();
+
+        return $this->render('user/index.html.twig', [
             'dashboardOpenTickets' => $openTickets,
             'dashboardClosedTickets' => $closedTickets,
+            "users" => $users,
+            //'dashboardAllTickets' => $showTickets->getReOpen();
+            'dashboardReopenTickets' => $allTickets, "i" => 0,
         ]);
     }
 
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        // Avoid calling getUser() in the constructor: auth may not
+        // be complete yet. Instead, store the entire Security object.
+        $this->security = $security;
+    }
+
+    /**
+     * @Route("/{id}/assign/inprogress", name="inprogress", methods={"GET","POST"})
+     */
+    public function inprogress (Request $request, Tickets $ticket): Response
+    {
+        $ticket->setAssignedTo(null);
+        $ticket->setTicketStatus('open');
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('agent_index');
+    }
 }
