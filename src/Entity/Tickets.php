@@ -50,6 +50,12 @@ class Tickets
      */
     private $Comments;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $reOpen;
+
+
     public function __construct()
     {
         $this->Comments = new ArrayCollection();
@@ -151,4 +157,21 @@ class Tickets
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getReOpen()
+    {
+        return $this->reOpen;
+    }
+
+    /**
+     * @param mixed $reOpen
+     */
+    public function setReOpen($reOpen): void
+    {
+        $this->reOpen = $reOpen;
+    }
+
 }
