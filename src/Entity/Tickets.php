@@ -7,6 +7,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @ORM\Entity(repositoryClass=TicketsRepository::class)
@@ -187,5 +188,8 @@ class Tickets
         $this->setClosingTime(null);
         return $this;
     }
+
+
+
 
 }

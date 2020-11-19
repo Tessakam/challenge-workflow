@@ -6,6 +6,7 @@ use App\Entity\Tickets;
 use App\Entity\User;
 use App\Form\TicketsType;
 use App\Repository\TicketsRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,6 +81,7 @@ class TicketsController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/{id}/edit", name="tickets_edit", methods={"GET","POST"})
      */
@@ -98,6 +100,26 @@ class TicketsController extends AbstractController
             'ticket' => $ticket,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/open", name="tickets_open", methods={"GET","POST"})
+     */
+    public function reopen(Request $request, Tickets $ticket): Response
+    {
+        $currentDate = new DateTime();
+        $closingDate = $ticket->getClosingTime();
+        $interval = $closingDate->diff($currentDate);
+        $id = $ticket->getId();
+        if ($interval->format('h') <= 1) {
+            $ticket->openTicket();
+            $this->getDoctrine()->getManager()->flush();
+        } else {
+            $this->addFlash('tooLateReopen', 'You can not open this ticket anymore please submit a new ticket.');
+        }
+        return $this->redirectToRoute('tickets_show', ['id' => $id,]);
+
+
     }
 
     /**
