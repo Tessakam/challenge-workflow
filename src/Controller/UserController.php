@@ -89,6 +89,21 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/{id}", name="reopen", methods={"reopen"})
+     */
+    // delete specific agent profile
+    public function reopen(Request $request, User $user): Response
+    {
+        if ($this->isCsrfTokenValid('reopen' . $user->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('user_index');
+    }
+
+    /**
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
      */
     // delete specific agent profile
@@ -102,6 +117,12 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
+
+    /**
+     * @Route("/", name="reopen", methods={"GET","POST"})
+     */
+    //public function reopenTicket(10): response
+
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
@@ -111,7 +132,6 @@ class UserController extends AbstractController
         $openTickets = 0;
         $closedTickets = 0;
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
-
         $allTickets = $this->getDoctrine()->getRepository(Tickets::class)->findAll();
         //var_dump($openTickets);
 
@@ -120,31 +140,34 @@ class UserController extends AbstractController
         $openTickets = $em->findBy(['ticketStatus' => 'open']);
         $closedTickets = $em->findBy(['ticketStatus' => 'closed']);
 
-        $showTickets = new Tickets();
-        //$showTickets->setReOpen();
+        $numberTickets =count($openTickets);
 
         return $this->render('user/index.html.twig', [
+            "users" => $users,
             'dashboardOpenTickets' => $openTickets,
             'dashboardClosedTickets' => $closedTickets,
-            "users" => $users,
-            //'dashboardAllTickets' => $showTickets->getReOpen();
-            'dashboardReopenTickets' => $allTickets, "i" => 0,
-        ]);
+            'dashboardNumberTickets' => $numberTickets,
+          ]);
     }
+
+
+
+
 
     private $security;
 
     public function __construct(Security $security)
     {
-        // Avoid calling getUser() in the constructor: auth may not
-        // be complete yet. Instead, store the entire Security object.
+        // Avoid calling getUser() in the constructor: auth may not be complete yet.
+        // Instead, store the entire Security object.
         $this->security = $security;
     }
 
     /**
      * @Route("/{id}/assign/inprogress", name="inprogress", methods={"GET","POST"})
      */
-    public function inprogress (Request $request, Tickets $ticket): Response
+    //the manager can reopen tickets
+    public function inprogress(Request $request, Tickets $ticket): Response
     {
         $ticket->setAssignedTo(null);
         $ticket->setTicketStatus('open');

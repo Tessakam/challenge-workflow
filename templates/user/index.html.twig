@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Manager index{% endblock %}
 
 {% block body %}
 
     <div class="container bg-info text-white">
-        <h1>User index</h1>
+        <h1>Manager index</h1>
 
         <table class="table">
             <thead>
@@ -44,7 +44,7 @@
         <a href="{{ path('user_new') }}">Create new</a>
 
         <div class="example-wrapper">
-            <h1>Welcome!</h1>
+            <h1>Dashboard</h1>
 
             <table style="width:100%">
                 <tr>
@@ -53,26 +53,7 @@
                     <th>Reopen tickets</th>
                 </tr>
             </table>
-
-            {% for openTicket in dashboardOpenTickets %}
-                <tr>
-                    <td>{{ openTicket.id }}</td>
-                    <td>{{ openTicket.ticketStatus }}</td>
-                    <td>{{ openTicket.ticketPriority }}</td>
-                    <td>{{ openTicket.content }}</td>
-                    <td>{% if  openTicket.assignedTo is not null %}{{ openTicket.assignedTo.firstName }} {{ openTicket.assignedTo.lastName }}{% endif %}</td>
-                    <td>
-                    </td>
-                </tr>
-                <a href="{{ path('tickets_show', {'id': openTicket.id}) }}">Show</a>
-                <a href="{{ path('agent_edit', {'id': openTicket.id}) }}">Edit</a>
-                <a href="{{ path('agent_assign', {'id': openTicket.id}) }}">Assign</a>
-
-            {% else %}
-
-            {% endfor %}
-
-
+                <H2>{{ dashboardNumberTickets }}</H2>
         </div>
     </div>
 {% endblock %}
