@@ -50,10 +50,11 @@ class Tickets
      */
     private $Comments;
 
+
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $reOpen;
+    private $closingTime;
 
 
     public function __construct()
@@ -158,20 +159,17 @@ class Tickets
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getReOpen()
+
+    public function getClosingTime(): ?\DateTimeInterface
     {
-        return $this->reOpen;
+        return $this->closingTime;
     }
 
-    /**
-     * @param mixed $reOpen
-     */
-    public function setReOpen($reOpen): void
+    public function setClosingTime(?\DateTimeInterface $closingTime): self
     {
-        $this->reOpen = $reOpen;
+        $this->closingTime = $closingTime;
+
+        return $this;
     }
 
 }
