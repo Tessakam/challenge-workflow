@@ -115,8 +115,7 @@ class AgentController extends AbstractController
      * @Route("/{id}/close/agent", name="agent_close", methods={"GET","POST"})
      */
     public function close(Request $request, Tickets $ticket, Security $security): Response
-    {   $messaseCantClose='';
-        $comments = $ticket->getComments();
+    {$comments = $ticket->getComments();
         $commentsAuthors = array();
         foreach ($comments as $comment) {
             $author=$comment->getUserComments();
@@ -126,8 +125,7 @@ class AgentController extends AbstractController
             array_push($commentsAuthors,$comment );}
         }
         if(!empty ($commentsAuthors)){
-            $ticket->setTicketStatus('closed');
-            $ticket->setAssignedTo(null);
+            $ticket->closeTicket();
             $this->getDoctrine()->getManager()->flush();
         }
         else{ $this->addFlash('alert', 'Ticket can not be close, no agent offered a solution.');}

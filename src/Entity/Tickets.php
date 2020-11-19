@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TicketsRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -169,6 +170,21 @@ class Tickets
     {
         $this->closingTime = $closingTime;
 
+        return $this;
+    }
+
+    public function closeTicket()
+    {
+        $this->closingTime = new DateTime();
+        $this->ticketStatus ='closed';
+        return $this;
+    }
+
+    public function openTicket()
+    {
+        $this->ticketStatus ='open';
+        $this->setAssignedTo(null);
+        $this->setClosingTime(null);
         return $this;
     }
 
