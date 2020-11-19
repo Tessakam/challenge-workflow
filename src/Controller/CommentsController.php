@@ -55,6 +55,11 @@ class CommentsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if (($user->getRoles() == ['ROLE_AGENT_ONE'] || $user->getRoles() == ['ROLE_AGENT_TWO']) && $comment->getStatus() == ['PUBLIC']) {
                 $ticket->setTicketStatus('Waiting for customer feedback');
+                $ticket->sendMail();
+                $this->getDoctrine()->getManager()->flush();
+            }
+            if ($user->getRoles() == ['ROLE_USER']  && $ticket->getTicketStatus() =='Waiting for customer feedback') {
+                $ticket->setTicketStatus('in progress');
                 $this->getDoctrine()->getManager()->flush();
             }
             $entityManager = $this->getDoctrine()->getManager();

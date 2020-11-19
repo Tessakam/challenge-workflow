@@ -178,6 +178,7 @@ class Tickets
     {
         $this->closingTime = new DateTime();
         $this->ticketStatus ='closed';
+        $this->sendMail();
         return $this;
     }
 
@@ -186,6 +187,16 @@ class Tickets
         $this->ticketStatus ='open';
         $this->setAssignedTo(null);
         $this->setClosingTime(null);
+        $this->sendMail();
+        return $this;
+    }
+
+    public function sendMail()
+    {   $mail=$this->getCreatedBy()->getEmail();
+        $to      = $mail;
+        $subject = 'Your ticket has been updated';
+        $message = 'Your ticket has been updated. Please login to your account.';
+        mail($to, $subject, $message);
         return $this;
     }
 

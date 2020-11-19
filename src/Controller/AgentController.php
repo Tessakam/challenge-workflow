@@ -80,6 +80,7 @@ class AgentController extends AbstractController
         if($role==['ROLE_AGENT_ONE']){
             if($status!='second line'){
                 $ticket->setAssignedTo($user);
+                $ticket->sendMail();
                 $ticket->setTicketStatus('in progress');
                 $this->getDoctrine()->getManager()->flush();
             }
@@ -88,6 +89,7 @@ class AgentController extends AbstractController
         if($role==['ROLE_AGENT_TWO']){
             if($status=='second line'){
                 $ticket->setAssignedTo($user);
+                $ticket->sendMail();
                 $ticket->setTicketStatus('in progress');
                 $this->getDoctrine()->getManager()->flush();
             }
@@ -106,6 +108,7 @@ class AgentController extends AbstractController
     {
         $ticket->setTicketStatus('second line');
         $ticket->setAssignedTo(null);
+        $ticket->sendMail();
         $this->getDoctrine()->getManager()->flush();
         return $this->redirectToRoute('agent_index');
 
