@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Security;
 class CommentsController extends AbstractController
 {
     private $security;
+
     public function __construct(Security $security)
     {
         // Avoid calling getUser() in the constructor: auth may not
@@ -40,10 +41,10 @@ class CommentsController extends AbstractController
      * @param Request $request
      * @param $security
      */
-    public function new(Request $request,Security $security): Response
+    public function new(Request $request, Security $security): Response
     {
-        $id=$request->query->get('ticketId');
-        $ticket=$this->getDoctrine()->getRepository(Tickets::class)->find($id);
+        $id = $request->query->get('ticketId');
+        $ticket = $this->getDoctrine()->getRepository(Tickets::class)->find($id);
         $user = $this->security->getUser();
         $comment = new Comments();
         $comment->setUserComments($user);
@@ -52,11 +53,15 @@ class CommentsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (($user->getRoles() == ['ROLE_AGENT_ONE'] || $user->getRoles() == ['ROLE_AGENT_TWO']) && $comment->getStatus() == ['PUBLIC']) {
+                $ticket->setTicketStatus('Waiting for customer feedback');
+                $this->getDoctrine()->getManager()->flush();
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('tickets_show',['id'=> $id,]);
+            return $this->redirectToRoute('tickets_show', ['id' => $id,]);
         }
 
         return $this->render('comments/new.html.twig', [
@@ -100,7 +105,7 @@ class CommentsController extends AbstractController
      */
     public function delete(Request $request, Comments $comment): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($comment);
             $entityManager->flush();

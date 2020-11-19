@@ -86,12 +86,12 @@ class Tickets
         return $this;
     }
 
-    public function getAssignedTo()
+    public function getAssignedTo(): ?User
     {
         return $this->assignedTo;
     }
 
-    public function setAssignedTo( $assignedTo): self
+    public function setAssignedTo(?User $assignedTo): self
     {
         $this->assignedTo = $assignedTo;
 

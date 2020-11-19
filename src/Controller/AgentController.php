@@ -22,6 +22,7 @@ class AgentController extends AbstractController
         // be complete yet. Instead, store the entire Security object.
         $this->security = $security;
     }
+
     /**
      * @Route("/agent", name="agent_index", methods={"GET"})
      */
@@ -71,7 +72,7 @@ class AgentController extends AbstractController
     /**
      * @Route("/{id}/assign/agent", name="agent_assign", methods={"GET","POST"})
      */
-    public function assign(Request $request, Tickets $ticket,Security $security): Response
+    public function assign(Request $request, Tickets $ticket, Security $security): Response
     {
         $user = $this->security->getUser();
         $ticket->setAssignedTo($user);
@@ -80,24 +81,52 @@ class AgentController extends AbstractController
         return $this->redirectToRoute('agent_index');
 
     }
-// /**
-//     * @Route("/{id}/second-line/agent", name="agent_second_line", methods={"GET","POST"})
-//     */
-//    public function assign(Request $request, Tickets $ticket,Security $security): Response
-//    {
-//        $ticket->setTicketStatus('second line');
-//        $this->getDoctrine()->getManager()->flush();
-//        return $this->redirectToRoute('agent_index');
 //
-//    }
 
+    /**
+     * @Route("/{id}/second-line/agent", name="agent_second_line", methods={"GET","POST"})
+     */
+    public function tosecond(Request $request, Tickets $ticket, Security $security): Response
+    {
+        $ticket->setTicketStatus('second line');
+        $ticket->setAssignedTo(null);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('agent_index');
+
+    }
+
+    /**
+     * @Route("/{id}/close/agent", name="agent_close", methods={"GET","POST"})
+     */
+    public function close(Request $request, Tickets $ticket, Security $security): Response
+    {   $messaseCantClose='';
+        $comments = $ticket->getComments();
+        $commentsAuthors = array();
+        foreach ($comments as $comment) {
+            $author=$comment->getUserComments();
+            $role=$author->getRoles();
+            $status=$comment->getStatus();
+            if($status==['PUBLIC'] && ($role==['ROLE_AGENT_ONE'] || $role==['ROLE_AGENT_TWO'])){
+            array_push($commentsAuthors,$comment );}
+        }
+        if(!empty ($commentsAuthors)){
+            $ticket->setTicketStatus('closed');
+            $ticket->setAssignedTo(null);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        else{ $this->addFlash('alert', 'Ticket can not be deleted')}
+
+        return $this->redirectToRoute('agent_index',[
+            'messageCantClose' => $messaseCantClose]);
+
+    }
 
     /**
      * @Route("/{id}", name="tickets_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Tickets $ticket): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ticket->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $ticket->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($ticket);
             $entityManager->flush();

@@ -6,6 +6,10 @@
 
     <div class="container bg-info text-white">
         <h1>Tickets index</h1>
+        {% if messaseCantClose is defined %}
+            <p>{{messaseCantClose}}</p>
+        {% endif %}
+
 
         <table class="table">
             <thead>
@@ -22,23 +26,26 @@
             <tbody>
             {% for ticket in tickets %}
                 <tr>
-                <td>{{ ticket.id }}</td>
-                <td>{{ ticket.ticketStatus }}</td>
-                <td>{{ ticket.ticketPriority }}</td>
-                <td>{{ ticket.content }}</td>
-                <td>{{ ticket.createdBy.firstName }} {{ ticket.createdBy.lastName }}</td>
-                <td>{% if  ticket.assignedTo is not null %}{{ ticket.assignedTo.firstName }} {{ ticket.assignedTo.lastName }}{% endif %}</td>
-                <td>
-                <a href="{{ path('tickets_show', {'id': ticket.id}) }}">Show</a>
-                <a href="{{ path('agent_edit', {'id': ticket.id}) }}">Edit</a>
-                <a href="{{ path('agent_assign', {'id': ticket.id}) }}">Assign</a>
-
-                </td>
+                    <td>{{ ticket.id }}</td>
+                    <td>{{ ticket.ticketStatus }}</td>
+                    <td>{{ ticket.ticketPriority }}</td>
+                    <td>{{ ticket.content }}</td>
+                    <td>{{ ticket.createdBy.firstName }} {{ ticket.createdBy.lastName }}</td>
+                    <td>{% if  ticket.assignedTo is not null %}{{ ticket.assignedTo.firstName }} {{ ticket.assignedTo.lastName }}{% endif %}</td>
+                    <td>
+                        <a href="{{ path('tickets_show', {'id': ticket.id}) }}">Show</a>
+                        <a href="{{ path('agent_edit', {'id': ticket.id}) }}">Edit</a>
+                        <a href="{{ path('agent_assign', {'id': ticket.id}) }}">Assign</a>
+                        {% if is_granted('ROLE_AGENT_ONE') %}
+                            <a href="{{ path('agent_second_line', {'id': ticket.id}) }}">Second line</a>
+                        {% endif %}
+                        <a href="{{ path('agent_close', {'id': ticket.id}) }}">Close</a>
+                    </td>
                 </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="5">no records found</td>
-                    </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>
