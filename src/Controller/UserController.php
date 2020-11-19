@@ -140,18 +140,18 @@ class UserController extends AbstractController
         $openTickets = $em->findBy(['ticketStatus' => 'open']);
         $closedTickets = $em->findBy(['ticketStatus' => 'closed']);
 
-        $numberTickets =count($openTickets);
+        $numberOpenTickets =count($openTickets);
+        $numberClosedTickets =count($closedTickets);
+        $numberReopenTickets =count($closedTickets);
 
         return $this->render('user/index.html.twig', [
             "users" => $users,
             'dashboardOpenTickets' => $openTickets,
             'dashboardClosedTickets' => $closedTickets,
-            'dashboardNumberTickets' => $numberTickets,
+            'dashboardTotalOpenTickets' => $numberOpenTickets,
+            'dashboardTotalClosedTickets' => $numberClosedTickets,
           ]);
     }
-
-
-
 
 
     private $security;
