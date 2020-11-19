@@ -6,9 +6,11 @@
 
     <div class="container bg-info text-white">
         <h1>Tickets index</h1>
-        {% if messaseCantClose is defined %}
-            <p>{{messaseCantClose}}</p>
-        {% endif %}
+        {% for message in app.flashes('alert') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
 
 
         <table class="table">

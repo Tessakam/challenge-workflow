@@ -75,9 +75,15 @@ class AgentController extends AbstractController
     public function assign(Request $request, Tickets $ticket, Security $security): Response
     {
         $user = $this->security->getUser();
-        $ticket->setAssignedTo($user);
-        $ticket->setTicketStatus('in progress');
-        $this->getDoctrine()->getManager()->flush();
+        $role=$user->getRoles();
+        //$status=$ticket->setTicketStatus();
+        if($role==['ROLE_AGENT_ONE']){
+
+            $ticket->setAssignedTo($user);
+            $ticket->setTicketStatus('in progress');
+            $this->getDoctrine()->getManager()->flush();
+        }
+
         return $this->redirectToRoute('agent_index');
 
     }
@@ -114,11 +120,9 @@ class AgentController extends AbstractController
             $ticket->setAssignedTo(null);
             $this->getDoctrine()->getManager()->flush();
         }
-        else{ $this->addFlash('alert', 'Ticket can not be deleted')}
+        else{ $this->addFlash('alert', 'Ticket can not be close, no agent offered a solution.');}
 
-        return $this->redirectToRoute('agent_index',[
-            'messageCantClose' => $messaseCantClose]);
-
+        return $this->redirectToRoute('agent_index');
     }
 
     /**
