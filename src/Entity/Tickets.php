@@ -86,7 +86,7 @@ class Tickets
         return $this;
     }
 
-    public function getAssignedTo(): 
+    public function getAssignedTo()
     {
         return $this->assignedTo;
     }
