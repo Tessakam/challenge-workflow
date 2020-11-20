@@ -4,7 +4,7 @@ This repository contains the group challenge Workflow
 <br>[Trello overview](https://trello.com/b/wjcTfNIf/group-challenge-ticket-system)
 
 ## How to install - setup vhost
-
+```
 VirtualHost *:80>
 ServerName challenge-workflow.local
 
@@ -17,6 +17,7 @@ DirectoryIndex /index.php
     FallbackResource /index.php
 </Directory>
 </VirtualHost>
+```
 
 ## Installing the project
 
@@ -64,11 +65,13 @@ We have 5 different users in our system that have different abilities:
 - [x] Can login to become another role (based on credentials)
 - [x] Provide a "forgot my password" functionality
 
+! [register screenshot](screenshots/register.png)
+
 ### Customer
 - [x] A customer can create a ticket on the site. It get's the status "open".
 - [x] The customer can see all open tickets that he created and comment on them.
 - If the customer responds to a ticket with status "Waiting for customer feedback" mail the agent and change the status again to "in progress".
-- A customer can reopen a ticket if it has been closed for less than 1 hour.
+- [x] A customer can reopen a ticket if it has been closed for less than 1 hour.
 
 ### Agent
 - [x] First line agents can see all open tickets and assign one to themselves. It now get's the status "in progress".
@@ -85,13 +88,15 @@ We have 5 different users in our system that have different abilities:
 - Provide a dashboard where managers can see statistics about the agents:
     - [x] Number of open tickets
     - [x] Number of closed tickets
-    - Number of tickets that where reopened
-    - A percentage comparision between the 2 numbers above.
-- A manager can re-assign tickets or mark them as "won't fix". In the last case the ticket is considered closed and cannot be opened by the customer later on. You should provide a required field to enter a reason for the manager why he will not fix it.
+    - [x] Number of tickets that where reopened
+    - [x] A percentage comparision between the 2 numbers above.
+- [x] A manager can re-assign tickets or mark them as "won't fix". In the last case the ticket is considered closed and cannot be opened by the customer later on. You should provide a required field to enter a reason for the manager why he will not fix it.
 
-- Managers can with one button de-assign all tickets, they once again get the status "open".
+- [x] Managers can with one button de-assign all tickets, they once again get the status "open".
 They normally do this at the end of every working day to prevent tickets being locked by an agent who is sick the next day.
-- Managers can assign priorities, on which the tickets should be sorted.
+- [x] Managers can assign priorities, on which the tickets should be sorted.
+
+! [dashboard screenshot](screenshots/dashboard.png)
 
 ### General rule
 - Every time a ticket is updated (comment, status change) you have to mail the customer EXCEPT when a private comment is made.
