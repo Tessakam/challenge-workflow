@@ -36,9 +36,10 @@ security:
   access_control:
     - { path: ^/tickets, roles: ROLE_USER }
     - { path: ^/manager, roles: ROLE_MANAGER }
+    - { path: ^/user, roles: ROLE_MANAGER }
     - { path: ^/customer, roles: ROLE_USER }
-    - { path: ^/agent-one, roles: ROLE_AGENT_ONE }
-    - { path: ^/agent-two, roles: ROLE_AGENT_TWO }
+    - { path: ^/agent, roles: ROLE_AGENT_ONE }
+    - { path: ^/agent, roles: ROLE_AGENT_TWO }
 
   role_hierarchy:
         ROLE_AGENT_ONE: [ ROLE_USER, ROLE_ALLOWED_TO_SWITCH ]
