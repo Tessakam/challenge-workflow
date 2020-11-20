@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Login page{% endblock %}
 
 {% block body %}
 
@@ -14,13 +14,14 @@
     <br>
     {% if app.user %}
         <div class="bg-warning mb-3">
-            You are logged in as <strong>{{ app.user.username }} </strong> , <a href="{{ path('app_logout') }}">Logout</a>
+            You are logged in as <strong>{{ app.user.username }} </strong> ... <a href="{{ path('app_logout') }}">log out?</a>
         </div>
     {% endif %}
 
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputFirstName">First Name</label>
     <input type="text" value="{{ last_username }}" name="FirstName" id="inputFirstName" class="form-control" required autofocus>
+    <br>
     <label for="inputPassword">Password</label>
     <input type="password" name="password" id="inputPassword" class="form-control" required>
 
@@ -44,7 +45,7 @@
         Sign in
     </button>
 
-    <br>
+    <br><br>
 
 </form>
 
