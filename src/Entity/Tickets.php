@@ -184,9 +184,8 @@ class Tickets
 
     public function openTicket()
     {
-        $this->ticketStatus ='open';
+        $this->setTicketStatus('open');
         $this->setAssignedTo(null);
-        $this->setClosingTime(null);
         $this->sendMail();
         return $this;
     }

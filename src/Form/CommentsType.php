@@ -13,24 +13,38 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class CommentsType extends AbstractType
 {
+
+    private $security;
+    public function __construct(Security $security)
+    {
+        // Avoid calling getUser() in the constructor: auth may not
+        // be complete yet. Instead, store the entire Security object.
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $user = $this->security->getUser();
+        $role=$user->getRoles();
         $builder
-            ->add('commentContent', TextareaType::class)
-            ->add('status', CollectionType::class, [
-                'entry_type'   => ChoiceType::class,
-                'entry_options'  => [
-                    'label' => false,
-                    'choices' => [
-                        'PUBLIC' => 'PUBLIC',
-                        'PRIVATE' => 'PRIVATE',
+            ->add('commentContent', TextareaType::class);
+            if ($role==['ROLE_AGENT_ONE']||$role==['ROLE_AGENT_TWO']||$role==['ROLE_AGENT_MANAGER']) {
+                $builder->add('status', CollectionType::class, [
+                    'entry_type' => ChoiceType::class,
+                    'entry_options' => [
+                        'label' => false,
+                        'choices' => [
+                            'PUBLIC' => 'PUBLIC',
+                            'PRIVATE' => 'PRIVATE',
+                        ],
                     ],
-                ],
-            ])
-        ;
+                ]);
+            }
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

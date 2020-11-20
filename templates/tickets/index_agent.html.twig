@@ -61,5 +61,13 @@
             {% endfor %}
             </tbody>
         </table>
+
+        <div class="d-flex justify-content-center p-4">
+            {% if is_granted('ROLE_MANAGER') %}
+                <a href="{{ path('open_all')}}" type="button" class="btn btn-primary m-2">Reopen all the tickets</a>
+                <a href="{{ path('user_index')}}" type="button" class="btn btn-primary m-2">Back to dashboard</a>
+            {% endif %}
+
+        </div>
     </div>
 {% endblock %}

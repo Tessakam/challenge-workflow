@@ -26,7 +26,7 @@
                 <tr>
                     <th><H2>{{ dashboardTotalOpenTickets }}</H2></th>
                     <th><H2>{{ dashboardTotalClosedTickets }}</H2></th>
-                    <th><H2>{{ dashboardTotalClosedTickets }}</H2></th>
+                    <th><H2>{{ dashboardTotalReopenTickets }}</H2></th>
                     <th><H2>{{ dashboardTotalClosedTickets }}</H2></th>
                 </tr>
             </table>
@@ -36,7 +36,7 @@
     <div class="container bg-light text-white">
 
         <table class="table">
-            <h1>Overview users</h1>
+            <h1>Overview agents</h1>
             <thead>
             <tr>
                 <th>Id</th>
@@ -49,6 +49,7 @@
             </thead>
             <tbody>
             {% for user in users %}
+                {% if user.roles==['ROLE_AGENT_ONE'] or user.roles==['ROLE_AGENT_TWO'] %}
                 <tr>
                     <td>{{ user.id }}</td>
                     <td>{{ user.FirstName }}</td>
@@ -60,6 +61,7 @@
                         <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
                     </td>
                 </tr>
+            {% endif %}
             {% else %}
                 <tr>
                     <td colspan="7">no records found</td>

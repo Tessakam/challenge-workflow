@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Tickets;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\TicketsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use \Doctrine\Common\Collections\Criteria;
 
 /**
  * @Route("/user")
@@ -27,6 +29,7 @@ class UserController extends AbstractController
             'roles' => User::roles,
         ]);
     }
+
 
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
@@ -119,9 +122,26 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/", name="reopen", methods={"GET","POST"})
+     * @Route("/agent/open-all)", name="open_all", methods={"GET","POST"})
      */
-    //public function reopenTicket(10): response
+    public function openAll(Request $request, TicketsRepository $ticketsRepository): Response
+    {
+        //$criteria = new Criteria();
+        //        $criteria->where(Criteria::expr()->neq('status', 'closed'));
+
+        $tickets = $ticketsRepository->findAll();
+
+        foreach ($tickets as $ticket) {
+            if($ticket->getTicketStatus()!='closed'){
+                $ticket->openTicket();
+                $this->getDoctrine()->getManager()->flush();
+            }
+        }
+        return $this->render('tickets/index_agent.html.twig', [
+            'tickets' => $tickets
+        ]);
+    }
+
 
     /**
      * @Route("/", name="user_index", methods={"GET"})
@@ -139,9 +159,13 @@ class UserController extends AbstractController
         $em = $this->getDoctrine()->getRepository(Tickets::class);
         $openTickets = $em->findBy(['ticketStatus' => 'open']);
         $closedTickets = $em->findBy(['ticketStatus' => 'closed']);
+        $reopenedTickets=array();
+        foreach($openTickets as $ticket){ if($ticket->getClosingTime()!=null){array_push( $reopenedTickets,$ticket);}}
 
-        $numberOpenTickets =count($openTickets);
-        $numberClosedTickets =count($closedTickets);
+        $numberOpenTickets = count($openTickets);
+        $numberReOpenTickets = count($reopenedTickets);
+        $numberClosedTickets = count($closedTickets);
+
         //$numberReopenTickets =count($numberReopenTickets);
 
         return $this->render('user/index.html.twig', [
@@ -150,8 +174,8 @@ class UserController extends AbstractController
             'dashboardClosedTickets' => $closedTickets,
             'dashboardTotalOpenTickets' => $numberOpenTickets,
             'dashboardTotalClosedTickets' => $numberClosedTickets,
-            //'dashboardTotalReopenTickets' => $numberReopenTickets,
-          ]);
+            'dashboardTotalReopenTickets' => $numberReOpenTickets,
+        ]);
     }
 
 
