@@ -36,7 +36,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for ticket in tickets %}
+            {% for ticket in tickets | sort((a,b)=> a.ticketPriority <=> b.ticketPriority) |reverse %}
                 <tr>
                     <td>{{ ticket.id }}</td>
                     <td>{{ ticket.ticketStatus }}</td>
