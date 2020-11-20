@@ -65,7 +65,7 @@ We have 5 different users in our system that have different abilities:
 - [x] Can login to become another role (based on credentials)
 - [x] Provide a "forgot my password" functionality
 
-! [register screenshot](screenshots/register.png)
+![register screenshot](screenshots/register.png)
 
 ### Customer
 - [x] A customer can create a ticket on the site. It get's the status "open".
@@ -96,7 +96,7 @@ We have 5 different users in our system that have different abilities:
 They normally do this at the end of every working day to prevent tickets being locked by an agent who is sick the next day.
 - [x] Managers can assign priorities, on which the tickets should be sorted.
 
-! [dashboard screenshot](screenshots/dashboard.png)
+![dashboard screenshot](screenshots/dashboard.png)
 
 ### General rule
 - Every time a ticket is updated (comment, status change) you have to mail the customer EXCEPT when a private comment is made.
