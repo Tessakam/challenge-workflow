@@ -11,9 +11,10 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
+    <br>
     {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        <div class="bg-warning mb-3">
+            You are logged in as <strong>{{ app.user.username }} </strong> , <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
 
@@ -38,9 +39,12 @@
         </div>
     #}
 
-    <button class="btn btn-lg btn-secondary mt-1 mb-1" type="submit">
+    <br>
+    <button class="btn btn-lg btn-light mt-1 mb-1" type="submit">
         Sign in
     </button>
+
+    <br>
 
 </form>
 
