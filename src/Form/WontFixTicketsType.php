@@ -20,7 +20,7 @@ class WontFixTicketsType extends AbstractType
         $builder
 
             ->add('ticketStatus', HiddenType::class, [
-            'data' => 'Closed',
+            'data' => 'closed',
              ])
 
             ->add('ticketPriority',ChoiceType::class, [

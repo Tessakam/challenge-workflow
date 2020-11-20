@@ -165,7 +165,8 @@ class UserController extends AbstractController
         $numberOpenTickets = count($openTickets);
         $numberReOpenTickets = count($reopenedTickets);
         $numberClosedTickets = count($closedTickets);
-        $percentageReOpenTickets=(($numberReOpenTickets/$numberOpenTickets)*100).'%';
+        $percentageReopen=($numberReOpenTickets/$numberOpenTickets)*100;
+        $percentageReOpenTickets=(number_format($percentageReopen,2)).'%';
 
         return $this->render('user/index.html.twig', [
             "users" => $users,
