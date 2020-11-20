@@ -25,7 +25,6 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
@@ -34,9 +33,6 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ path('app_login') }}">Login</a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('tickets_index') }}">Check your tickets</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_forgot_password_request') }}">Forgot your password?</a>
                     </li>
@@ -44,8 +40,16 @@
 
                 <form>
                     <div class="form-inline my-2 my-lg-0">
+                        {% if is_granted('ROLE_AGENT_ONE', 'ROLE_AGENT_TWO') %}
+                            <button class="btn btn-light my-2 my-sm-0" type="submit"><a href="{{ path('agent_index') }}">Check tickets agent</a></button>
+                        {% endif %}
+                    </div>
+                </form>
+
+                <form>
+                    <div class="form-inline my-2 my-lg-0">
                         {% if is_granted('ROLE_MANAGER') %}
-                            <button class="btn btn-info my-2 my-sm-0" type="submit"><a href="{{ path('user_index') }}">Dashboard
+                            <button class="btn btn-light my-2 my-sm-0" type="submit"><a href="{{ path('user_index') }}">Dashboard
                                     manager</a></button>
                         {% endif %}
                     </div>
@@ -53,8 +57,9 @@
 
                 <form>
                     <div class="form-inline my-2 my-lg-0">
-                        <button class="btn btn-info my-4" type="submit">Logout</button>
-                        <a href="{{ path('app_logout') }}"> </a>
+
+                        <button class="btn btn-warning my-2 my-sm-0" type="submit"><a href="{{ path('app_logout') }}">Logout</a></button>
+
                     </div>
                 </form>
             </div>
