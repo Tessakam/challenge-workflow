@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TicketsType extends AbstractType
+class PriorityTicketType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,26 +23,12 @@ class TicketsType extends AbstractType
             'data' => 'open',
              ])
 
-            ->add('ticketPriority', HiddenType::class, [
-                'data' =>  1,
-            ])
-
-            // ->add('ticketPriority',ChoiceType::class, [
-            //                'choices' => ['default'=>0,'urgent'=>1,'emergency'=>2
-            //                ],
-            //            ])
-
-            ->add('content',TextareaType::class)
-            //->add('assignedTo', EntityType::class, [
-            //                'class' => User::class,
-            //                'query_builder' => function (UserRepository $er) {
-            //                    return $er->createQueryBuilder('u')
-            //                        ->orderBy('u.FirstName', 'ASC');
-            //                },
-            //                'choice_label' => 'FirstName',
-            //            ])
 
 
+            ->add('ticketPriority',ChoiceType::class, [
+                            'choices' => ['default'=>1,'urgent'=>2,'emergency'=>3
+                          ],
+                     ])
 
         ;
     }

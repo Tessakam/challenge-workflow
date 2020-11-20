@@ -40,7 +40,9 @@
                 <tr>
                     <td>{{ ticket.id }}</td>
                     <td>{{ ticket.ticketStatus }}</td>
-                    <td>{{ ticket.ticketPriority }}</td>
+                    <td>{{ ticket.ticketPriority }} {% if is_granted('ROLE_MANAGER') %}
+                            <a href="{{ path('ticket_priority', {'id': ticket.id}) }}">Change</a>
+                        {% endif %}</td>
                     <td>{{ ticket.content }}</td>
                     <td>{{ ticket.createdBy.firstName }} {{ ticket.createdBy.lastName }}</td>
                     <td>{% if  ticket.assignedTo is not null %}{{ ticket.assignedTo.firstName }} {{ ticket.assignedTo.lastName }}{% endif %}</td>
@@ -52,6 +54,9 @@
                             <a href="{{ path('agent_second_line', {'id': ticket.id}) }}">Second line</a>
                         {% endif %}
                         <a href="{{ path('agent_close', {'id': ticket.id}) }}">Close</a>
+                        {% if is_granted('ROLE_MANAGER') %}
+                            <a href="{{ path('ticket_cannot_be_fixed', {'id': ticket.id}) }}">Won't fix</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}
@@ -64,8 +69,8 @@
 
         <div class="d-flex justify-content-center p-4">
             {% if is_granted('ROLE_MANAGER') %}
-                <a href="{{ path('open_all')}}" type="button" class="btn btn-primary m-2">Reopen all the tickets</a>
-                <a href="{{ path('user_index')}}" type="button" class="btn btn-primary m-2">Back to dashboard</a>
+                <a href="{{ path('open_all') }}" type="button" class="btn btn-primary m-2">Reopen all the tickets</a>
+                <a href="{{ path('user_index') }}" type="button" class="btn btn-primary m-2">Back to dashboard</a>
             {% endif %}
 
         </div>

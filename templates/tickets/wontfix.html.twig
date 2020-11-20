@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Change priority Tickets{% endblock %}
+
+{% block body %}
+
+<div class="container bg-info text-white">
+    <h1>Change priority of this ticket</h1>
+
+    {{ include('tickets/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('agent_index') }}">back to list</a>
+
+
+</div>
+
+{% endblock %}

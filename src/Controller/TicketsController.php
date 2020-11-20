@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Tickets;
 use App\Entity\User;
+use App\Form\CommentWontfixeType;
+use App\Form\PriorityTicketType;
 use App\Form\TicketsType;
+use App\Form\WontFixTicketsType;
 use App\Repository\TicketsRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -97,6 +100,46 @@ class TicketsController extends AbstractController
         }
 
         return $this->render('tickets/edit.html.twig', [
+            'ticket' => $ticket,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/priority", name="ticket_priority", methods={"GET","POST"})
+     */
+    public function prioritize(Request $request, Tickets $ticket): Response
+    {
+        $form = $this->createForm(PriorityTicketType::class, $ticket);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('agent_index');
+        }
+
+        return $this->render('tickets/prioritize.html.twig', [
+            'ticket' => $ticket,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/{id}/wont-fix", name="ticket_cannot_be_fixed", methods={"GET","POST"})
+     */
+    public function wontFix(Request $request, Tickets $ticket): Response
+    {
+        $form = $this->createForm(WontFixTicketsType::class, $ticket);
+        $form->handleRequest($request);
+        //$formcomment = $this->createForm(CommentWontfixeType::class, $ticket);
+       // $formcomment->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('agent_index');
+        }
+
+        return $this->render('tickets/wontfix.html.twig', [
             'ticket' => $ticket,
             'form' => $form->createView(),
         ]);
